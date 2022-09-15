@@ -1,14 +1,17 @@
 package MercuryCyclists.CSCI318.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Supplier")
+@JsonPropertyOrder({"id"})//This makes it so the auto generated ID appears first
 public class Supplier {
 
     @Id
@@ -21,14 +24,14 @@ public class Supplier {
                cascade = CascadeType.ALL)
     private List<Contact> contactList = new ArrayList<Contact>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "supplier",
             cascade = CascadeType.ALL)
     private List<Part> partList = new ArrayList<>();
 
-    public Supplier(@JsonProperty("id") Long ID,
-                    @JsonProperty("companyName") String companyName,
+
+    public Supplier(@JsonProperty("companyName") String companyName,
                     @JsonProperty("base")String base) {
-        this.ID = ID;
         this.companyName = companyName;
         this.base = base;
     }

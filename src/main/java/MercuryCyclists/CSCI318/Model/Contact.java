@@ -2,15 +2,15 @@ package MercuryCyclists.CSCI318.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Optional;
 
 /** This is the class responsible for creating objects of type Contact. Contact objects are employees that are a part of Supplier objects*/
 
 @Entity
 @Table(name = "Contact")
+@JsonPropertyOrder({"id"})//This makes it so the auto generated ID appears first
 public class Contact {
 
     @Id
@@ -24,17 +24,16 @@ public class Contact {
     private String email;
 
     private String position;
-
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
 
-    public Contact(@JsonProperty("id") Long id,
-                   @JsonProperty("name") String name,
+    public Contact(@JsonProperty("name") String name,
                    @JsonProperty("phone") String phone,
                    @JsonProperty("email") String email,
                    @JsonProperty("position") String position) {
-        this.ID = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -87,9 +86,7 @@ public class Contact {
         return supplier;
     }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
+    public void setSupplier(Supplier supplier) { this.supplier = supplier; }
 
     @Override
     public String toString() {

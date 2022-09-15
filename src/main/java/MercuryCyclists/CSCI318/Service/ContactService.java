@@ -2,6 +2,7 @@ package MercuryCyclists.CSCI318.Service;
 
 
 import MercuryCyclists.CSCI318.Model.Contact;
+import MercuryCyclists.CSCI318.Model.Supplier;
 import MercuryCyclists.CSCI318.Repository.ContactRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class ContactService {
 
     private final ContactRepo contactRepo;
 
-    @Autowired
+
     public ContactService(ContactRepo contactRepo) {
         this.contactRepo = contactRepo;
     }

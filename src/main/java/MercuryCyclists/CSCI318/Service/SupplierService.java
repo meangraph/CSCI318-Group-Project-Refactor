@@ -6,6 +6,7 @@ import MercuryCyclists.CSCI318.Repository.SupplierRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -14,7 +15,7 @@ public class SupplierService {
     private final SupplierRepo supplierRepo;
     private final ContactService contactService;
 
-    @Autowired
+
     public SupplierService(SupplierRepo supplierRepo, ContactService contactService) {
         this.supplierRepo = supplierRepo;
         this.contactService = contactService;
@@ -48,18 +49,15 @@ public class SupplierService {
         supplierRepo.delete(supplier);
 
     }
-
+    @Transactional
     public void addContactToSupplier(Long supplierID, Long contactID){
         Supplier supplier = getSupplierById(supplierID);
         Contact contact = contactService.getContactById(contactID);
-        contact.setSupplier(supplier);
         supplier.addContact(contact);
-
-        System.out.println("ContactList: " + supplier.getContactList().get(0).getName() + " Supplier:" + supplier.getContactList().get(0).getSupplier().getCompanyName());
 
 
     }
-
+    @Transactional
     public void removeContactFromSupplier(Long supplierID, Long contactID){
         Supplier supplier = getSupplierById(supplierID);
         Contact contact = contactService.getContactById(contactID);
