@@ -21,16 +21,21 @@ public class Part {
     private Product product;
 
     @ManyToOne
+    @JsonIgnore
     private Supplier supplier;
+
+    private int stock;
 
     public Part(@JsonProperty String name,
                 @JsonProperty Long partID,
                 @JsonProperty String description,
-                @JsonProperty Supplier supplier){
+                @JsonProperty Supplier supplier,
+                @JsonProperty int stock){
         this.name = name;
         this.partID = partID;
         this.description = description;
         this.supplier = supplier;
+        this.stock = stock;
     }
 
     public Part(){}
@@ -64,5 +69,13 @@ public class Part {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

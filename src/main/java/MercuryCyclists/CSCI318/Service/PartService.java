@@ -34,6 +34,7 @@ public class PartService {
             part.setName(newPart.getName());
             part.setSupplier(newPart.getSupplier());
             part.setProduct(newPart.getProduct());
+            part.setStock(newPart.getStock());
             return partRepo.save(part);
         }).orElseGet(() -> {
             newPart.setPartID(id);

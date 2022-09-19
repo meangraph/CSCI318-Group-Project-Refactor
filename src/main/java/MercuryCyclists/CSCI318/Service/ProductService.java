@@ -32,6 +32,7 @@ public class ProductService {
             product.setComment(newProduct.getComment());
             product.setPartsList(newProduct.getPartsList());
             product.setSalesList(newProduct.getSalesList());
+            product.setStock(newProduct.getStock());
             return productRepo.save(product);
         }).orElseGet(() ->{
             newProduct.setProductID(id);

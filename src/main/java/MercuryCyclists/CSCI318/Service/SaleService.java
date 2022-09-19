@@ -1,5 +1,6 @@
 package MercuryCyclists.CSCI318.Service;
 
+import MercuryCyclists.CSCI318.Event.ProcurementEvent;
 import MercuryCyclists.CSCI318.Model.*;
 import MercuryCyclists.CSCI318.Repository.SalesRepo;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+import java.util.Scanner;
+
 
 @Service
 public class SaleService {
@@ -27,6 +29,33 @@ public class SaleService {
 
     public void createSale(Long productId,OnlineSale sale){
         Product product = productService.getProductById(productId);
+
+        if(product.getStock() == 0){
+            System.out.println(product.getName() + " has no stock, checking to see if the parts are available");
+            for (int i = 0; i < product.getParts().size(); i++) {
+                int stockCheck = product.getParts().get(i).getStock();
+                if (stockCheck == 0){
+                    System.out.println(product.getName() + " parts has no stock. We can put this item on back order to get the parts from out suppliers. Would you like to" +
+                            " do this? Yes/No");
+                    Scanner scanner = new Scanner(System.in);
+                    String response = scanner.nextLine();
+
+                    if (response.equalsIgnoreCase("Yes")){
+                        System.out.println("Your product has been successfully placed on back order");
+                        sale.setStatus(OrderStatus.BACKORDER);
+                        ProcurementEvent event = new ProcurementEvent("Back Order request for",sale,product);
+                    }
+                    else{
+                        sale.setStatus(OrderStatus.CANCELED);
+                    }
+
+                }
+                else {
+                    sale.setStatus(OrderStatus.CONFIRMED);
+                }
+            }
+        }
+
         sale.setProduct(product);
         onLineRepo.save(sale);
     }
@@ -35,6 +64,33 @@ public class SaleService {
     public void createSale(Long productId,Long storeId,InStoreSale sale){
         Store store = storeService.getStoreById(storeId);
         Product product = productService.getProductById(productId);
+
+        if(product.getStock() == 0){
+            System.out.println(product.getName() + " has no stock, checking to see if the parts are available");
+            for (int i = 0; i < product.getParts().size(); i++) {
+                int stockCheck = product.getParts().get(i).getStock();
+                if (stockCheck == 0){
+                    System.out.println(product.getName() + " parts has no stock. We can put this item on back order to get the parts from out suppliers. Would you like to" +
+                            " do this? Yes/No");
+                    Scanner scanner = new Scanner(System.in);
+                    String response = scanner.nextLine();
+
+                    if (response.equalsIgnoreCase("Yes")){
+                        System.out.println("Your product has been successfully placed on back order");
+                        sale.setStatus(OrderStatus.BACKORDER);
+                        ProcurementEvent event = new ProcurementEvent("Back Order request for",sale,product);
+                    }
+                    else{
+                        sale.setStatus(OrderStatus.CANCELED);
+                    }
+
+                }
+                else {
+                    sale.setStatus(OrderStatus.CONFIRMED);
+                }
+            }
+
+        }
         sale.setStore(store);
         sale.setProduct(product);
         store.addSales(sale);

@@ -22,6 +22,8 @@ public class Product {
     private Long productID;
     private double price;
     String comment;
+    private int stock;
+
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -31,12 +33,19 @@ public class Product {
     @JsonIgnore
     private List<Sale> salesList = new ArrayList<>();
 
-    public Product(@JsonProperty String name, @JsonProperty double price, @JsonProperty String comment) {
+
+
+    public Product(@JsonProperty String name,
+                   @JsonProperty double price,
+                   @JsonProperty String comment,
+                   @JsonProperty int stock) {
         this.name = name;
         this.price = price;
         this.comment = comment;
+        this.stock = stock;
     }
 
+    @JsonIgnore
     public List<Part> getPartsList() {
         return partsList;
     }
@@ -60,6 +69,7 @@ public class Product {
         return name;
     }
 
+    @JsonIgnore
     public List<Part> getParts() {return partsList;
     }
 
@@ -105,5 +115,13 @@ public class Product {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

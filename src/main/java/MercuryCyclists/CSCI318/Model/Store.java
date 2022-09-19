@@ -28,21 +28,14 @@ public class Store {
     @JsonIgnore
     List<InStoreSale> sales = new ArrayList<>();
 
-    /*@ElementCollection
-    private Map<Product, Integer> productStock = new HashMap<>();
-
-    @ElementCollection
-    private Map<Part,Integer> itemStock = new HashMap<>();
-
-
-*/
     public Store(@JsonProperty("manager") int managerID,
-                 @JsonProperty("address") String address){
+                 @JsonProperty("address") String address) {
         this.managerID = managerID;
         this.address = address;
     }
 
-    public Store(){}
+    public Store() {
+    }
 
     public int getManagerID() {
         return managerID;
@@ -79,4 +72,6 @@ public class Store {
     public void addSales(InStoreSale sale) {
         sales.add(sale);
     }
+
 }
+

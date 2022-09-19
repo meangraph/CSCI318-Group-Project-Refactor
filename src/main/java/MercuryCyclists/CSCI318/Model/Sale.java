@@ -19,10 +19,14 @@ public abstract class Sale {
     private int quantity;
     private LocalDateTime dataTime = LocalDateTime.now();
 
+    @Enumerated(value = EnumType.STRING)
+    private OrderStatus status;
+
     public Sale(@JsonProperty("productName") String productName,
                 @JsonProperty("quantity") int quantity)
     {
         this.quantity = quantity;
+        status = OrderStatus.CREATED;
     }
 
     public Sale(){}
@@ -34,7 +38,6 @@ public abstract class Sale {
     public void setID(Long ID) {
         this.ID = ID;
     }
-
 
 
     public int getQuantity() {
@@ -62,6 +65,11 @@ public abstract class Sale {
         this.product = product;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
 
-
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 }

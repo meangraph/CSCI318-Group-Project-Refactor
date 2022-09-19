@@ -33,4 +33,6 @@ public class StoreController {
 
     @GetMapping(path = "/{storeID}/sales")
     public List<InStoreSale> getSaleFromStore(@PathVariable("storeID") Long store){return storeService.getSaleFromStore(store);}
+
+
 }
