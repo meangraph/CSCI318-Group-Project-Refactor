@@ -6,6 +6,7 @@ import MercuryCyclists.CSCI318.Repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -48,11 +49,11 @@ public class ProductService {
 
     public void deleteProductById(Long id) { productRepo.deleteById(id);}
 
+    @Transactional
     public void addPartToProduct(Long productId, Long partId){
         Product product = getProductById(productId);
         Part part = partService.getPartById(partId);
 
-        part.setProduct(product);
         product.addPart(part);
     }
 }

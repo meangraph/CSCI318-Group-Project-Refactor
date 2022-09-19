@@ -6,6 +6,7 @@ import MercuryCyclists.CSCI318.Repository.PartRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -45,22 +46,21 @@ public class PartService {
         partRepo.delete(part);
     }
 
+    @Transactional
     public void addPartToSupplier(Long partID,Long supplierID ) {
         Supplier supplier = supplierService.getSupplierById(supplierID);
         Part part = getPartById(partID);
 
-        part.setSupplier(supplier);
         supplier.addPart(part);
 
-        System.out.println("Part Suppler: " + supplier.getPartList().get(0).getSupplier().getCompanyName() + " PartList: " + supplier.getPartList().get(0).getName());
     }
 
-        public void removePartFromSupplier(Long partID, Long supplierID) {
-            Supplier supplier = supplierService.getSupplierById(supplierID);
-            Part part = getPartById(partID);
+    public void removePartFromSupplier(Long partID, Long supplierID) {
+        Supplier supplier = supplierService.getSupplierById(supplierID);
+        Part part = getPartById(partID);
 
-            part.setSupplier(null);
-            supplier.removePart(part);
+        part.setSupplier(null);
+        supplier.removePart(part);
     }
 
     public Supplier getSupplierByPart(Long partID) {

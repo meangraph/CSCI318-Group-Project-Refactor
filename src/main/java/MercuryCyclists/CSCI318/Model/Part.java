@@ -3,10 +3,12 @@ package MercuryCyclists.CSCI318.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
 
 @Entity(name = "Part")
+@JsonPropertyOrder({"id"})
 public class Part {
 
     private String name;
@@ -21,7 +23,10 @@ public class Part {
     @ManyToOne
     private Supplier supplier;
 
-    public Part(@JsonProperty String name, @JsonProperty Long partID, @JsonProperty String description, @JsonProperty Supplier supplier){
+    public Part(@JsonProperty String name,
+                @JsonProperty Long partID,
+                @JsonProperty String description,
+                @JsonProperty Supplier supplier){
         this.name = name;
         this.partID = partID;
         this.description = description;

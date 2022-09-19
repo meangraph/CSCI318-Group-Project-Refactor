@@ -37,4 +37,6 @@ public class ProductController {
     @GetMapping(path = "{ID}/parts")
     public List <Part> getPartsInProductById(@PathVariable("ID") Long id){return productService.getAllProductParts(id);}
 
+    @PutMapping(path = "{productID}/{partID}")
+    public void addPartToProduct(@PathVariable ("productID") Long productId, @PathVariable ("partID") Long partId){ productService.addPartToProduct(productId,partId);}
 }

@@ -2,6 +2,7 @@ package MercuryCyclists.CSCI318.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 
 @Entity(name = "Product")
+@JsonPropertyOrder({"id"})
 public class Product {
     private String name;
 
@@ -29,9 +31,8 @@ public class Product {
     @JsonIgnore
     private List<Sale> salesList = new ArrayList<>();
 
-    public Product(@JsonProperty String name, @JsonProperty Long productID, @JsonProperty double price, @JsonProperty String comment) {
+    public Product(@JsonProperty String name, @JsonProperty double price, @JsonProperty String comment) {
         this.name = name;
-        this.productID = productID;
         this.price = price;
         this.comment = comment;
     }
@@ -75,6 +76,7 @@ public class Product {
     }
 
     public void addPart(Part part) {
+        part.setProduct(this);
         partsList.add(part);
     }
 

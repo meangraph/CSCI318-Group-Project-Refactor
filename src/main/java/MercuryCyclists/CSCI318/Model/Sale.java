@@ -1,77 +1,67 @@
 package MercuryCyclists.CSCI318.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
-//Might need to redo this one. To make it easier, i put a bool flag called "online" to denote weather it's online or offline.
-@Entity(name = "Sale")
-public class Sale {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Sale {
 
-    String productName;
-    int quantity;
-    boolean online;
-
-    @NotBlank
     @Id
-    Long receiptNumber;
-    //instore vars
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ID;
     @ManyToOne
-    @JoinColumn(name = "store_id")
-    @JsonIgnore
-    Store store;
+    @JoinColumn(name = "product_id")
+    private Product product;
+    private int quantity;
+    private LocalDateTime dataTime = LocalDateTime.now();
 
-    //online vars
-    String customerName;
-
-    //In person constructor
-    public Sale(@JsonProperty String productName, @JsonProperty int quantity, @JsonProperty Long receiptNumber, Store store){
-        this.productName = productName;
+    public Sale(@JsonProperty("productName") String productName,
+                @JsonProperty("quantity") int quantity)
+    {
         this.quantity = quantity;
-        this.receiptNumber = receiptNumber;
-        this.store = store;
-        online = false;
     }
 
     public Sale(){}
 
-    //Online constructor
-    public Sale(@JsonProperty String productName, @JsonProperty int quantity, @JsonProperty String customerName, @JsonProperty Long reciptNumber){
-        this.productName = productName;
-        this.quantity = quantity;
-        this.customerName = customerName;
-        this.receiptNumber = reciptNumber;
-        online = true;
+    public Long getID() {
+        return ID;
     }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
+
 
     public int getQuantity() {
         return quantity;
     }
 
-    public boolean isOnline() {
-        return online;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public Long getReceiptNumber() {
-        return receiptNumber;
+
+    public LocalDateTime getDataTime() {
+        return dataTime;
     }
 
-    public Store getStore() {
-        return store;
+    public void setDataTime(LocalDateTime dataTime) {
+        this.dataTime = dataTime;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public Product getProduct() {
+        return product;
     }
 
-    public String getProductName() {
-        return productName;
+    public void setProduct(Product product) {
+        this.product = product;
     }
+
+
+
 }

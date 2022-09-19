@@ -1,9 +1,10 @@
 package MercuryCyclists.CSCI318.Repository;
 
-import MercuryCyclists.CSCI318.Model.Store;
+import MercuryCyclists.CSCI318.Model.Sale;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-@Repository
-public interface SalesRepo extends JpaRepository<Store, Long> {
+
+@NoRepositoryBean
+public interface SalesRepo extends JpaRepository<Sale, Long> {
 }

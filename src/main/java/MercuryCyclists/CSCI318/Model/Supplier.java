@@ -89,6 +89,7 @@ public class Supplier {
     }
 
     public void addPart(Part part){
+        part.setSupplier(this);
         partList.add(part);
     }
 

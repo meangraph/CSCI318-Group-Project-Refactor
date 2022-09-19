@@ -1,47 +1,82 @@
 package MercuryCyclists.CSCI318.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import MercuryCyclists.CSCI318.Model.Address;
+import java.util.Map;
 
-@Entity(name = "Store")
+
+@Entity
+@Table(name = "Store")
+@JsonPropertyOrder({"id"})
 public class Store {
 
-    //Not sure what to put in as a manager object, so i just put in a numbered ID.
-    private int managerID;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ID;
+
+    private int managerID;
     private String address;
 
-    @OneToMany(mappedBy = "store",
-            cascade = CascadeType.ALL)
-    List<Sale> sales;
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn
+    @JsonIgnore
+    List<InStoreSale> sales = new ArrayList<>();
 
-    public Store(@JsonProperty int managerID, String address){
+    /*@ElementCollection
+    private Map<Product, Integer> productStock = new HashMap<>();
+
+    @ElementCollection
+    private Map<Part,Integer> itemStock = new HashMap<>();
+
+
+*/
+    public Store(@JsonProperty("manager") int managerID,
+                 @JsonProperty("address") String address){
         this.managerID = managerID;
         this.address = address;
     }
 
     public Store(){}
 
-    public String getAddress(){
-        return address;
-    }
-
-    public int getManagerID(){
+    public int getManagerID() {
         return managerID;
     }
 
-    public List<Sale> getSales() {
+    public void setManagerID(int managerID) {
+        this.managerID = managerID;
+    }
+
+    public Long getID() {
+        return ID;
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<InStoreSale> getSales() {
         return sales;
     }
 
-    public void addSale(Sale sale){
+    public void setSales(List<InStoreSale> sales) {
+        this.sales = sales;
+    }
+
+    public void addSales(InStoreSale sale) {
         sales.add(sale);
     }
 }
